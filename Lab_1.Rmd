@@ -1,0 +1,146 @@
+## vectores y matrices
+
+### 1.
+
+```{r}
+std_1<- c(50.4,62.3,92.1,77.6,TRUE)
+std_2<- c(41.7,87.9,75.3,72.4,FALSE)
+std_3<- c(30.3,67.8,69.3,71.2,FALSE)
+std_4<- c(65.4,85.1,92.3,96.8,TRUE)
+std_5<- c(70.4,88.2,95.2,90.7,TRUE)
+```
+
+### 2.
+
+```{r}
+students_vector<-c(std_1,std_2,std_3,std_4,std_5)
+```
+
+### 3.
+
+```{r}
+students_matrix <- matrix(students_vector,nrow=5,byrow=TRUE)
+students_matrix
+```
+
+##NOMBRADO DE UNA MATRIZ
+
+### 2.1
+
+```{r}
+name_students<-c("Lily Brown","Davis Moore","Susan Taylor","Mike Jones","Tom Hill")
+name_couses_legal_age<-c("TIC","Accounting","Psychology","Ethics","Legal_age")
+```
+
+### 2.2
+
+```{r}
+colnames(students_matrix)<-name_couses_legal_age
+rownames(students_matrix)<-name_students
+students_matrix
+```
+
+## rowSums, cbind
+
+### 3.1
+
+```{r}
+total_grade_student<-rowSums(students_matrix[,1:4])
+total_grade_student
+```
+
+### 3.2
+
+```{r}
+result_students <-cbind(students_matrix,total_grade_student)
+result_students
+```
+
+##seleccionando elementos de una matriz ###4.1
+
+```{r}
+selected_elements<-result_students[c(1,3,5),c(2,4)]
+selected_elements
+```
+
+## Data Frames
+
+### 5.1
+
+```{r}
+students_grades_df <-data.frame(result_students)
+
+students_grades_df
+```
+
+### 5.2
+
+```{r}
+subset_funtion<-subset(students_grades_df,Accounting>80 & Legal_age==TRUE)
+subset_funtion
+```
+
+##Funciones, Condicionales y Bucles \### 6.1
+
+```{r}
+students_projection <- function(){
+  for(x in 1:nrow(result_students)){
+    for (y in c(1:4)){
+      print(result_students[x,y])
+    }
+  }
+}
+
+students_projection()
+```
+
+## 6.2
+
+```{r}
+
+students_projection <- function(){
+  for(x in 1:nrow(result_students)){
+    for (y in c(1:4)){
+      if (result_students[x,y] <= 45){
+        print("Student at risk")
+      }else if (result_students[x,y] > 45 & result_students [x,y]< 61){
+        print("Student may be approved")
+      }else if (result_students[x,y] >= 61){
+        print("Student approved")
+      }
+    }
+  }
+}
+
+students_projection()
+```
+
+## Data frames y lapply
+
+### 7.1
+
+```{r}
+index_education <-function(grade){
+  return((1+(grade/100))/2)
+}
+```
+
+```{r}
+all_students_grade <- students_grades_df[,1:4]
+all_students_grade
+```
+
+```{r}
+lapply(all_students_grade,index_education)
+```
+
+##Math utilities
+
+### 8.1
+
+```{r}
+students_grades_df
+
+score_mean <- colMeans(students_grades_df[1:4])
+score_mean
+```
